@@ -1,0 +1,24 @@
+component Layout(path string, title string, class string, header []string, message string)
+	html
+		head
+			Title(title)
+			meta(charset="UTF-8")
+			meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
+			meta(name="robots",content="noindex,nofollow")
+			link(rel="icon",href= path+"/src/favicon.ico")
+			link(rel="stylesheet",href= path+"/src/style.css")
+		body
+			main(class= class)
+				Header(header)
+				Content(message)
+
+component Title(title string)
+	title= title
+
+component Header(header []string)
+	header
+		each line in header
+			div!= line
+
+component Content(text string)
+	article= text

@@ -1,0 +1,22 @@
+port: 8065
+gzip: false
+images: "images/"
+messages: "msg.txt"
+path: "/error_page"
+status:
+  403:
+    message: true
+    class: "forbid"
+    title: "Error 403 Title"
+    main:
+      - line1
+      - line2
+      - line3
+
+  404:
+    message: false
+    class: "forbid"
+    title: "Error 404 Title"
+    main:
+      - line1
+      - line2

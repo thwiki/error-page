@@ -1,0 +1,40 @@
+#!/bin/bash
+
+go mod tidy
+go get -u github.com/aerogo/pack/...
+pack
+go build .
+
+mkdir -p /etc/error-page
+
+cp -n config.yml /etc/error-page/config.yml || true
+
+echo "[Unit]
+Description=Serves an error page with random quotes
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=simple
+User=$(whoami)
+
+PIDFile=/run/error-page.pid
+
+WorkingDirectory=$(pwd)
+ExecStart=$(pwd)/error-page
+
+Restart=on-failure
+RestartSec=10
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=error-pageservice
+
+ExecStop=/bin/kill -s QUIT $MAINPID
+
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+" > /lib/systemd/system/error-page.service
+
+chown root:root /lib/systemd/system/error-page.service
